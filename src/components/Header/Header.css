@@ -1,0 +1,20 @@
+nav {
+  padding: 10px;
+}
+
+h1 {
+  color: white;
+  padding: 20px;
+  margin: 0px;
+  text-align: center;
+}
+
+.navigation {
+  text-decoration: none;
+  margin: 10px 30px;
+  color: lightblue;
+}
+
+#banner {
+  background-color: rgb(37, 71, 145);
+}

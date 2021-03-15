@@ -36,6 +36,7 @@ function* addFood(action) {
 
   try {
     yield axios.post('/api/food/add', action.payload);
+    alert('Success!');
   } catch (error) {
     console.log('Error in addFood', error);
   }

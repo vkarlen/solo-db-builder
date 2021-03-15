@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 
-import './EntryForm.css';
+import './AddFood.css';
 
 function EntryForm() {
   const dispatch = useDispatch();
@@ -36,7 +36,12 @@ function EntryForm() {
         image: newImage,
       },
     });
+
+    setNewDesc('');
+    setNewIngredients('');
+    setNewImage('');
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <label>

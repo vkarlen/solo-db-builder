@@ -12,14 +12,14 @@ import { takeEvery, put } from 'redux-saga/effects';
 
 import App from './components/App/App';
 
-/*** SAGAS ***/
-
+/*** ---- SAGAS ---- ***/
 function* rootSaga() {
   yield takeEvery('ADD_FOOD', addFood);
   yield takeEvery('ADD_GROUP', addAllergyGroup);
   yield takeEvery('FETCH_BRANDS', fetchBrands);
   yield takeEvery('FETCH_GROUPS', fetchGroups);
   yield takeEvery('FETCH_INGREDIENTS', fetchIngredients);
+  yield takeEvery('UPDATE_GROUPING', updateGrouping);
 }
 
 function* addFood(action) {
@@ -83,10 +83,23 @@ function* fetchIngredients() {
   } catch (error) {
     console.log('Error in fetchIngredients');
   }
-}
+} // end fetchIngredients
 
-/*** REDUCERS ***/
+function* updateGrouping(action) {
+  console.log('updateGrouping', action.payload);
 
+  try {
+    yield axios.put('/api/food/update', action.payload);
+
+    yield put({
+      type: 'FETCH_INGREDIENTS',
+    });
+  } catch (error) {
+    console.log('Error in changeGrouping', error);
+  }
+} // end changeGrouping
+
+/*** ---- REDUCERS ---- ***/
 const brandReducer = (state = [], action) => {
   switch (action.type) {
     case 'SET_BRANDS':

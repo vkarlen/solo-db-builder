@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import './AllergyTable.css';
 
@@ -14,6 +14,18 @@ function AllergyTable() {
   const allergyGroups = useSelector((store) => store.allergyGroupReducer);
   const ingredients = useSelector((store) => store.ingredientReducer);
 
+  const handleChange = (newGroup, ingredient) => {
+    console.log('in Change', newGroup, ingredient);
+
+    dispatch({
+      type: 'UPDATE_GROUPING',
+      payload: {
+        newGroup,
+        ingredient,
+      },
+    });
+  }; // end handleChange
+
   return (
     <div>
       <table>
@@ -25,11 +37,24 @@ function AllergyTable() {
         </thead>
         <tbody>
           {ingredients.map((item) => {
-            console.log(item);
             return (
               <tr key={item.id}>
                 <td>{item.ingredient}</td>
-                <td>{item.group}</td>
+
+                <td>
+                  <select
+                    defaultValue={item.all_id}
+                    onChange={(evt) => handleChange(evt.target.value, item.id)}
+                  >
+                    {allergyGroups.map((allergy) => {
+                      return (
+                        <option key={allergy.id} value={allergy.id}>
+                          {allergy.description}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </td>
               </tr>
             );
           })}

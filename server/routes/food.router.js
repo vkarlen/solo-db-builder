@@ -18,7 +18,8 @@ router.get('/brands', (req, res) => {
 });
 
 router.get('/allergy', (req, res) => {
-  const sqlQuery = `SELECT * FROM "allergy_groups";`;
+  const sqlQuery = `SELECT * FROM "allergy_groups"
+  ORDER BY ("id" = 0) DESC, ("id" = 1) DESC, description;`;
 
   pool
     .query(sqlQuery)
@@ -33,7 +34,8 @@ router.get('/allergy', (req, res) => {
 
 router.get('/ingredients', (req, res) => {
   const sqlQuery = `SELECT "ingredients".id, "ingredients".description as Ingredient, "ingredients".allergy_id as all_id, "allergy_groups".description as Group FROM "ingredients"
-  JOIN "allergy_groups" ON "ingredients".allergy_id = "allergy_groups".id;`;
+  JOIN "allergy_groups" ON "ingredients".allergy_id = "allergy_groups".id
+  ORDER BY ("allergy_id" = 0) DESC, "ingredients".description;`;
 
   pool
     .query(sqlQuery)
@@ -142,6 +144,24 @@ router.post('/allergy/add', (req, res) => {
     })
     .catch((err) => {
       console.log('Error in db ADD /allergy', err);
+      res.sendStatus(500);
+    });
+});
+
+/*** PUT ROUTES ***/
+router.put('/update', (req, res) => {
+  console.log('in PUT', req.body);
+  const sqlQuery = `UPDATE "ingredients"
+  SET "allergy_id" = $1
+  WHERE "id" = $2;`;
+
+  pool
+    .query(sqlQuery, [req.body.newGroup, req.body.ingredient])
+    .then((dbRes) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log('Error in PUT /update');
       res.sendStatus(500);
     });
 });

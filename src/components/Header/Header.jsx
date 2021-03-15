@@ -13,6 +13,12 @@ function Header() {
             Add a Food
           </Link>
         </span>
+
+        <span>
+          <Link to="/allergies" class="navigation">
+            Manage Allergy Groups
+          </Link>
+        </span>
       </nav>
     </div>
   );

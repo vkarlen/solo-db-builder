@@ -52,11 +52,27 @@ const brandReducer = (state = [], action) => {
   }
 };
 
+const ingredientReducer = (state = [], action) => {
+  switch (action.type) {
+    default:
+      return state;
+  }
+};
+
+const allergyGroupReducer = (state = [], action) => {
+  switch (action.type) {
+    default:
+      return state;
+  }
+};
+
 const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
   combineReducers({
     brandReducer,
+    ingredientReducer,
+    allergyGroupReducer,
   }),
   applyMiddleware(sagaMiddleware, logger)
 );

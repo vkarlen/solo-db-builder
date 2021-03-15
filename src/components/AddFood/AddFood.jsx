@@ -43,58 +43,61 @@ function EntryForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Brand:
-        <select onChange={(evt) => setNewBrand(evt.target.value)}>
-          <option>SELECT</option>
-          {brandList.map((brand) => {
-            return (
-              <option value={brand.id} key={brand.id}>
-                {brand.name}
-              </option>
-            );
-          })}
-        </select>
-      </label>
+    <div>
+      <h2>Add New Food</h2>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Brand:
+          <select onChange={(evt) => setNewBrand(evt.target.value)}>
+            <option>SELECT</option>
+            {brandList.map((brand) => {
+              return (
+                <option value={brand.id} key={brand.id}>
+                  {brand.name}
+                </option>
+              );
+            })}
+          </select>
+        </label>
 
-      <br />
+        <br />
 
-      <label>
-        Description:
-        <input
-          type="text"
-          value={newDesc}
-          onChange={(evt) => setNewDesc(evt.target.value)}
-        />
-      </label>
+        <label>
+          Description:
+          <input
+            type="text"
+            value={newDesc}
+            onChange={(evt) => setNewDesc(evt.target.value)}
+          />
+        </label>
 
-      <br />
+        <br />
 
-      <label>
-        Ingredients:
-        <input
-          type="text"
-          value={newIngredients}
-          onChange={(evt) => setNewIngredients(evt.target.value)}
-        />
-      </label>
+        <label>
+          Ingredients:
+          <input
+            type="text"
+            value={newIngredients}
+            onChange={(evt) => setNewIngredients(evt.target.value)}
+          />
+        </label>
 
-      <br />
+        <br />
 
-      <label>
-        Image:
-        <input
-          type="text"
-          value={newImage}
-          onChange={(evt) => setNewImage(evt.target.value)}
-        />
-      </label>
+        <label>
+          Image:
+          <input
+            type="text"
+            value={newImage}
+            onChange={(evt) => setNewImage(evt.target.value)}
+          />
+        </label>
 
-      <br />
+        <br />
 
-      <button>Submit</button>
-    </form>
+        <button>Submit</button>
+      </form>
+    </div>
   );
 }
 

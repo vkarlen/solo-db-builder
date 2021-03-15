@@ -1,1 +1,15 @@
+h2 {
+  text-align: center;
+}
 
+form {
+  width: 300px;
+  margin: 15px auto;
+  border: 1px solid grey;
+  padding: 15px;
+}
+
+input,
+select {
+  margin: 3px;
+}

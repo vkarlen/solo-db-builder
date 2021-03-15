@@ -3,6 +3,25 @@ const pool = require('../modules/pool');
 const router = express.Router();
 
 /*** GET ROUTES ***/
+router.get('/', (req, res) => {
+  const sqlQuery = `SELECT "foods".id, "brands".name AS brand, "foods".description, ARRAY_AGG("ingredients".description) AS ingredients
+  FROM "foods"
+  JOIN "brands" ON "brands".id = "foods".brand_id
+  JOIN "foods_ingredients" ON "foods".id = "foods_ingredients".food_id
+  JOIN "ingredients" ON "ingredients".id = "foods_ingredients".ingredients_id
+  GROUP BY "foods".id, "brands".name, "foods".description;`;
+
+  pool
+    .query(sqlQuery)
+    .then((dbRes) => {
+      res.send(dbRes.rows);
+    })
+    .catch((err) => {
+      console.log('Error in db GET /', err);
+      res.sendStatus(500);
+    });
+});
+
 router.get('/brands', (req, res) => {
   const sqlQuery = `SELECT * FROM "brands"`;
 

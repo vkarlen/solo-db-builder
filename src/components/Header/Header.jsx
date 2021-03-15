@@ -19,6 +19,12 @@ function Header() {
             Manage Allergy Groups
           </Link>
         </span>
+
+        <span>
+          <Link to="/food" className="navigation">
+            Food List
+          </Link>
+        </span>
       </nav>
     </div>
   );

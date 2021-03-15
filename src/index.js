@@ -19,6 +19,7 @@ function* rootSaga() {
   yield takeEvery('FETCH_BRANDS', fetchBrands);
   yield takeEvery('FETCH_GROUPS', fetchGroups);
   yield takeEvery('FETCH_INGREDIENTS', fetchIngredients);
+  yield takeEvery('FETCH_FOOD', fetchFood);
   yield takeEvery('UPDATE_GROUPING', updateGrouping);
 }
 
@@ -85,6 +86,19 @@ function* fetchIngredients() {
   }
 } // end fetchIngredients
 
+function* fetchFood() {
+  try {
+    const food = yield axios.get('/api/food/');
+
+    yield put({
+      type: 'SET_FOOD_LIST',
+      payload: food.data,
+    });
+  } catch (error) {
+    console.log('Error in fetchFoods', error);
+  }
+} // end fetchFood
+
 function* updateGrouping(action) {
   console.log('updateGrouping', action.payload);
 
@@ -127,6 +141,15 @@ const allergyGroupReducer = (state = [], action) => {
   }
 };
 
+const foodReducer = (state = [], action) => {
+  switch (action.type) {
+    case 'SET_FOOD_LIST':
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
 const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
@@ -134,6 +157,7 @@ const store = createStore(
     brandReducer,
     ingredientReducer,
     allergyGroupReducer,
+    foodReducer,
   }),
   applyMiddleware(sagaMiddleware, logger)
 );

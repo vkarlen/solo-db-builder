@@ -13,3 +13,17 @@ input,
 select {
   margin: 3px;
 }
+
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 3px;
+}
+
+table {
+  margin: auto;
+  width: 50%;
+  max-width: 500px;
+}

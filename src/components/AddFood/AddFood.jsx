@@ -20,12 +20,8 @@ function EntryForm() {
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
+    // Change ingredient list to array
     const ingArray = newIngredients.split(', ');
-
-    // console.log('in submit');
-    // console.log('Brand:', newBrand);
-    // console.log('Desc:', newDesc);
-    // console.log('Ingredients:', ingArray);
 
     dispatch({
       type: 'ADD_FOOD',
@@ -37,10 +33,11 @@ function EntryForm() {
       },
     });
 
+    // Clear inputs
     setNewDesc('');
     setNewIngredients('');
     setNewImage('');
-  };
+  }; // end handleSubmit
 
   return (
     <div>

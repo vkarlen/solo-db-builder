@@ -2,6 +2,7 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
+/*** GET ROUTES ***/
 router.get('/brands', (req, res) => {
   const sqlQuery = `SELECT * FROM "brands"`;
 
@@ -16,6 +17,36 @@ router.get('/brands', (req, res) => {
     });
 });
 
+router.get('/allergy', (req, res) => {
+  const sqlQuery = `SELECT * FROM "allergy_groups";`;
+
+  pool
+    .query(sqlQuery)
+    .then((dbRes) => {
+      res.send(dbRes.rows);
+    })
+    .catch((err) => {
+      console.log('Error in db GET /allergy', err);
+      res.sendStatus(500);
+    });
+});
+
+router.get('/ingredients', (req, res) => {
+  const sqlQuery = `SELECT "ingredients".id, "ingredients".description as Ingredient, "ingredients".allergy_id as all_id, "allergy_groups".description as Group FROM "ingredients"
+  JOIN "allergy_groups" ON "ingredients".allergy_id = "allergy_groups".id;`;
+
+  pool
+    .query(sqlQuery)
+    .then((dbRes) => {
+      res.send(dbRes.rows);
+    })
+    .catch((err) => {
+      console.log('Error in db GET /allergy', err);
+      res.sendStatus(500);
+    });
+});
+
+/*** POST ROUTES ***/
 router.post('/add', (req, res) => {
   // Save ingredients array as variable
   const ingredients = req.body.ingredients;
@@ -95,6 +126,22 @@ router.post('/add', (req, res) => {
     })
     .catch((err) => {
       console.log('Error in /add', err);
+      res.sendStatus(500);
+    });
+});
+
+router.post('/allergy/add', (req, res) => {
+  console.log('in router', req.body);
+  const sqlQuery = `INSERT INTO "allergy_groups" ("description")
+  VALUES ($1)`;
+
+  pool
+    .query(sqlQuery, [req.body.description])
+    .then((dbRes) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log('Error in db ADD /allergy', err);
       res.sendStatus(500);
     });
 });

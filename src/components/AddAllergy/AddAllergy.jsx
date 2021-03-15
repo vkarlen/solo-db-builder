@@ -1,24 +1,37 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 function AddAllergy() {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch({ type: 'FETCH_BRANDS' });
-  }, []);
+  const [newGroup, setNewGroup] = useState('');
 
-  const allergyGroups = useSelector((store) => store.allergyGroupReducer);
-  const ingredients = useSelector((store) => store.ingredientReducer);
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+
+    dispatch({
+      type: 'ADD_GROUP',
+      payload: {
+        description: newGroup,
+      },
+    });
+
+    // Clear inputs
+    setNewGroup('');
+  }; // end handleSubmit
 
   return (
     <div>
       <h2>Add New Allergy Group</h2>
 
-      <form>
+      <form onSubmit={handleSubmit}>
         <label>
           Group Name:
-          <input type="text" />
+          <input
+            type="text"
+            value={newGroup}
+            onChange={(evt) => setNewGroup(evt.target.value)}
+          />
         </label>
 
         <br />

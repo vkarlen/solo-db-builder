@@ -13,10 +13,38 @@ import { takeEvery, put } from 'redux-saga/effects';
 import App from './components/App/App';
 
 /*** SAGAS ***/
+
 function* rootSaga() {
-  yield takeEvery('FETCH_BRANDS', fetchBrands);
   yield takeEvery('ADD_FOOD', addFood);
+  yield takeEvery('ADD_GROUP', addAllergyGroup);
+  yield takeEvery('FETCH_BRANDS', fetchBrands);
+  yield takeEvery('FETCH_GROUPS', fetchGroups);
+  yield takeEvery('FETCH_INGREDIENTS', fetchIngredients);
 }
+
+function* addFood(action) {
+  //console.log('addFood', action.payload);
+
+  try {
+    yield axios.post('/api/food/add', action.payload);
+    alert('Success!');
+  } catch (error) {
+    console.log('Error in addFood', error);
+  }
+} // end addFood
+
+function* addAllergyGroup(action) {
+  try {
+    console.log('in saga');
+    yield axios.post('/api/food/allergy/add', action.payload);
+
+    yield put({
+      type: 'FETCH_GROUPS',
+    });
+  } catch (error) {
+    console.log('Error in addAllergyGroup', error);
+  }
+} // end addAllergyGroup
 
 function* fetchBrands() {
   try {
@@ -31,18 +59,34 @@ function* fetchBrands() {
   }
 } // end fetchBrands
 
-function* addFood(action) {
-  console.log('addFood', action.payload);
-
+function* fetchGroups() {
   try {
-    yield axios.post('/api/food/add', action.payload);
-    alert('Success!');
+    const groups = yield axios.get('/api/food/allergy');
+
+    yield put({
+      type: 'SET_GROUPS',
+      payload: groups.data,
+    });
   } catch (error) {
-    console.log('Error in addFood', error);
+    console.log('Error in fetchGroups');
+  }
+} // end fetchGroups
+
+function* fetchIngredients() {
+  try {
+    const ingredients = yield axios.get('/api/food/ingredients');
+
+    yield put({
+      type: 'SET_INGREDIENTS',
+      payload: ingredients.data,
+    });
+  } catch (error) {
+    console.log('Error in fetchIngredients');
   }
 }
 
 /*** REDUCERS ***/
+
 const brandReducer = (state = [], action) => {
   switch (action.type) {
     case 'SET_BRANDS':
@@ -54,6 +98,8 @@ const brandReducer = (state = [], action) => {
 
 const ingredientReducer = (state = [], action) => {
   switch (action.type) {
+    case 'SET_INGREDIENTS':
+      return action.payload;
     default:
       return state;
   }
@@ -61,6 +107,8 @@ const ingredientReducer = (state = [], action) => {
 
 const allergyGroupReducer = (state = [], action) => {
   switch (action.type) {
+    case 'SET_GROUPS':
+      return action.payload;
     default:
       return state;
   }

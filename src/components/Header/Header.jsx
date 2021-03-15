@@ -9,13 +9,13 @@ function Header() {
 
       <nav>
         <span>
-          <Link to="/addfood" class="navigation">
+          <Link to="/addfood" className="navigation">
             Add a Food
           </Link>
         </span>
 
         <span>
-          <Link to="/allergies" class="navigation">
+          <Link to="/allergies" className="navigation">
             Manage Allergy Groups
           </Link>
         </span>
